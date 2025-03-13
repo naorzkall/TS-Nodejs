@@ -3,8 +3,10 @@ const num1Element = document.getElementById('num1') as HTMLInputElement;
 const num2Element = document.getElementById('num2') as HTMLInputElement;
 const btnElement = document.querySelector('button');
 
-let numResults: number[] = []; // array contains numbers
-let textResults: string[] = []; // array contains strings
+// let numResults: number[] = []; // array contains numbers
+let numResults:  Array<number> = [];
+// let textResults: string[] = []; // array contains strings
+let textResults:  Array<string> = [];
 
 //degining a new type
 type NumOrString = number | string;
@@ -44,8 +46,54 @@ btnElement?.addEventListener('click',() => {
     console.log(numResults, textResults);
 });
 
-/*
-console.log(add(5, 11));       // 16
-console.log(add("Hello", "World"));  // "Hello World"
-console.log(add("5", 11));     // 16
-*/
+
+const myPromise = new Promise((resolve,reject)=>{
+  setTimeout(()=>{
+    resolve('It worked!');
+  }, 1000)
+})
+
+myPromise.then( (result)=>{
+  // split() don not work here because it does not know the type of result
+  console.log(result);
+} )
+
+const myPromise2: Promise<string> = new Promise((resolve,reject)=>{
+  setTimeout(()=>{
+    resolve('It worked!');
+  }, 1000)
+})
+
+myPromise2.then( (result)=>{
+  // split() don not work here because it does not know the type of result
+  console.log(result.split(" "));
+} )
+
+
+
+// creating a function that returns the first of an array, regardless of the type of elements:
+function getFirstElement<T>(arr: T[]): T {
+  return arr[0];
+}
+let numbers = getFirstElement<number>([1, 2, 3]); // number
+let strings = getFirstElement<string>(["a", "b", "c"]); // string
+
+
+// the Box class works with any type (T), whether it is number, string, or any other type.
+class Box<T> {
+  private value: T;
+
+  constructor(value: T) {
+    this.value = value;
+  }
+
+  getValue(): T {
+    return this.value;
+  }
+}
+
+let numberBox = new Box<number>(10);
+console.log(numberBox.getValue()); // 10
+
+let stringBox = new Box<string>("Hello");
+console.log(stringBox.getValue()); // Hello
