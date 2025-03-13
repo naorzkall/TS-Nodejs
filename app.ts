@@ -6,7 +6,16 @@ const btnElement = document.querySelector('button');
 let numResults: number[] = []; // array contains numbers
 let textResults: string[] = []; // array contains strings
 
-function add(num1: number | string, num2: number | string):number | string {
+//degining a new type
+type NumOrString = number | string;
+type Result =  { val: number; timestamp: Date };
+
+interface ResultOj {
+  val: number;
+  timestamp: Date;
+}
+
+function add(num1: NumOrString, num2: NumOrString) :NumOrString {
     if (typeof num1 === "number" && typeof num2 === "number") {
       return num1 + num2; // add
     } else if (typeof num1 === "string" && typeof num2 === "string") {
@@ -16,7 +25,7 @@ function add(num1: number | string, num2: number | string):number | string {
     }
 }
 
-function printResult(resultObj: { val: number; timestamp: Date }) {
+function printResult(resultObj: Result) {
     console.log(resultObj.val);
 }
 
@@ -33,9 +42,10 @@ btnElement?.addEventListener('click',() => {
     
     printResult({ val: result as number, timestamp: new Date() });
     console.log(numResults, textResults);
-    
 });
 
-/* console.log(add(5, 11));       // 16
+/*
+console.log(add(5, 11));       // 16
 console.log(add("Hello", "World"));  // "Hello World"
-console.log(add("5", 11));     // 16 */
+console.log(add("5", 11));     // 16
+*/
