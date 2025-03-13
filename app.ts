@@ -1,10 +1,12 @@
 
 const num1Element = document.getElementById('num1') as HTMLInputElement;
 const num2Element = document.getElementById('num2') as HTMLInputElement;
-const btnElement = document.querySelector('button')!;
+const btnElement = document.querySelector('button');
 
+let numResults: number[] = []; // array contains numbers
+let textResults: string[] = []; // array contains strings
 
-function add(num1: number | string, num2: number | string) {
+function add(num1: number | string, num2: number | string):number | string {
     if (typeof num1 === "number" && typeof num2 === "number") {
       return num1 + num2; // add
     } else if (typeof num1 === "string" && typeof num2 === "string") {
@@ -12,16 +14,28 @@ function add(num1: number | string, num2: number | string) {
     } else {
       return +num1 + +num2; // casting
     }
-  }
-  
+}
 
-btnElement.addEventListener('click',() => {
+function printResult(resultObj: { val: number; timestamp: Date }) {
+    console.log(resultObj.val);
+}
+
+  
+btnElement?.addEventListener('click',() => {
     const num1  = num1Element.value;
     const num2  = num2Element.value;
-    const result = add(num1,num2);
-    console.log(result);
+
+    const result = add(+num1,+num2);
+    numResults.push(result as number);
+
+    const stringResult = add(num1,num2);
+    textResults.push(stringResult as string);
+    
+    printResult({ val: result as number, timestamp: new Date() });
+    console.log(numResults, textResults);
+    
 });
 
-console.log(add(5, 11));       // 16
+/* console.log(add(5, 11));       // 16
 console.log(add("Hello", "World"));  // "Hello World"
-console.log(add("5", 11));     // 16
+console.log(add("5", 11));     // 16 */
